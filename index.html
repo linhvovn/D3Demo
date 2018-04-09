@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+<link rel="stylesheet" href="css/ims2Chart.css">
+<script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="js/d3.v3.min.js"></script>
+<script type="text/javascript" src="js/ims2Chart.js"></script>
+</head>
+<body>
+	<div id="chart"></div>
+	<div>
+		<div class="btn-group pull-right">
+			<button type="button" class="btn btn-primary dropdown-toggle"
+				data-toggle="dropdown">
+				Messages per hour <span class="caret"></span>
+			</button>
+			<ul class="dropdown-menu" role="menu">
+				<li><a class="m" value="2014-02-19" href="#">2014-02-19</a></li>
+				<li><a class="m" value="2014-02-20" href="#">2014-02-20</a></li>
+			</ul>
+		</div>
+
+	</div>
+</body>
+<script type="text/javascript">
+	$(document).ready(function(){
+		var chart = $("#chart").ims2StackBar({
+			dataSource: "data/data.json",
+			target: "#chart",
+			yLabel: "Number of transactions",
+			xLabel: "Days",
+			legend: {
+			    0 : ["Challenge","#1f77b4"],
+				1 : ["Frictionless","#2ca02c"],
+				2 : ["Attempt","#ff7f0e"]
+			},
+			title: "Transaction per Day"
+		});
+		
+		d3.selectAll(".m")
+		.on("click", function() {
+			var date = this.getAttribute("value");
+
+			var str;
+			if(date == "2014-02-19"){
+				str = "data/19.json";
+			}else if(date == "2014-02-20"){
+				str = "data/20.json";
+			}
+			
+			$(chart).ims2StackBar("update",
+					{
+						jsonUrl: str,
+						scaleType:"H",
+						title: "Transaction Per Hours",
+						xLabel: "Hours"
+					});
+		});
+	});
+</script>
+</html>
